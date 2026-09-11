@@ -2,12 +2,17 @@
   "expo": {
     "name": "EventHub",
     "slug": "EventHub",
+    "scheme": "eventhub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "EventHub ka nevojë për lokacionin tënd për të shtuar eventet me koordinata të sakta.",
+        "NSPhotoLibraryUsageDescription": "EventHub ka nevojë për qasje te fotot që të mund të shtosh foto te eventet."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -15,10 +20,32 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "EventHub ka nevojë për lokacionin tënd për të shtuar eventet me koordinata të sakta."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "EventHub ka nevojë për qasje te fotot që të mund të shtosh foto te eventet."
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-asset",
+      "expo-font",
+      "expo-splash-screen"
+    ]
   }
 }
