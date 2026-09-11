@@ -109,4 +109,6 @@ User i thjeshte:
 
 - Firestore eshte aktualisht ne test mode (rregullat e sigurise hapen deri me 11 Tetor 2026) - per prodhim te vertete do te duheshin Security Rules restriktive.
 - Fotot ruhen si base64 direkt ne Firestore (jo Firebase Storage) per te shmangur nevojen e planit Blaze (pagese).
+<<<<<<< HEAD
 - Google Sign-In eshte konfiguruar ne kod, por kerkon development build (jo Expo Go) per te funksionuar plotesisht - per kete arsye eshte perdorur Phone Authentication si provider i dyte.
+=======
