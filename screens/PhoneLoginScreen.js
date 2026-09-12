@@ -1,19 +1,10 @@
 import { useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import { signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
-import { auth } from '../firebase/config';
-import { firebaseConfig } from '../firebase/config';
+import { auth, firebaseConfig } from '../firebase/config';
+import { colors, fonts } from '../utils/theme';
 
 export default function PhoneLoginScreen({ navigation }) {
   const recaptchaVerifier = useRef(null);
@@ -49,7 +40,6 @@ export default function PhoneLoginScreen({ navigation }) {
     try {
       const credential = PhoneAuthProvider.credential(verificationId, code.trim());
       await signInWithCredential(auth, credential);
-      // AuthContext e ndryshon vetë ekranin
     } catch (error) {
       Alert.alert('Gabim', error.message);
     } finally {
@@ -60,20 +50,15 @@ export default function PhoneLoginScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <SafeAreaView style={styles.container}>
-        <FirebaseRecaptchaVerifierModal
-          ref={recaptchaVerifier}
-          firebaseConfig={firebaseConfig}
-        />
+        <FirebaseRecaptchaVerifierModal ref={recaptchaVerifier} firebaseConfig={firebaseConfig} />
 
         <Text style={styles.title}>Kyçu me Telefon</Text>
-        <Text style={styles.subtitle}>
-          Për testim, përdor: +16505551234 (kodi: 123456)
-        </Text>
+        <Text style={styles.subtitle}>Për testim, përdor: +16505551234 (kodi: 123456)</Text>
 
         <TextInput
           style={styles.input}
           placeholder="+383 44 000 000"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={colors.textTertiary}
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
@@ -89,7 +74,7 @@ export default function PhoneLoginScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder="Kodi i verifikimit (123456)"
-              placeholderTextColor="#aaa"
+              placeholderTextColor={colors.textTertiary}
               value={code}
               onChangeText={setCode}
               keyboardType="number-pad"
@@ -109,24 +94,24 @@ export default function PhoneLoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: '#fff' },
-  title: { fontSize: 26, fontWeight: '800', fontFamily: 'Poppins_800ExtraBold', textAlign: 'center', marginBottom: 8, color: '#6366f1' },
-  subtitle: { fontSize: 13, textAlign: 'center', color: '#9ca3af', marginBottom: 28 },
+  container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: colors.background },
+  title: { fontSize: 28, textAlign: 'center', marginBottom: 8, color: colors.accent, fontFamily: fonts.extrabold, letterSpacing: -0.5 },
+  subtitle: { fontSize: 13, textAlign: 'center', color: colors.textTertiary, marginBottom: 28, fontFamily: fonts.medium },
   input: {
-    borderWidth: 1.5,
-    borderColor: '#e5e7eb',
-    borderRadius: 12,
-    padding: 14,
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    padding: 16,
     marginBottom: 16,
     fontSize: 16,
+    color: colors.textPrimary,
+    fontFamily: fonts.medium,
+    shadowColor: '#785F46',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
   },
-  button: {
-    backgroundColor: '#6366f1',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 4,
-  },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '700', fontFamily: 'Poppins_700Bold' },
-  link: { textAlign: 'center', marginTop: 24, color: '#6366f1', fontWeight: '600', fontFamily: 'Poppins_600SemiBold' },
+  button: { backgroundColor: colors.accent, padding: 16, borderRadius: 18, alignItems: 'center', marginTop: 4 },
+  buttonText: { color: '#fff', fontSize: 16, fontFamily: fonts.bold },
+  link: { textAlign: 'center', marginTop: 24, color: colors.accent, fontFamily: fonts.semibold },
 });

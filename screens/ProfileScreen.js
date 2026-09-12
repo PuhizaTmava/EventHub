@@ -16,6 +16,7 @@ import { auth } from '../firebase/config';
 import { useAuth } from '../context/AuthContext';
 import { getUserProfile, saveUserProfile } from '../utils/userService';
 import useImagePicker from '../hooks/useImagePicker';
+import { colors, fonts } from '../utils/theme';
 
 export default function ProfileScreen() {
   const { user, isAdmin } = useAuth();
@@ -77,7 +78,7 @@ export default function ProfileScreen() {
   if (loading) {
     return (
       <SafeAreaView style={styles.center}>
-        <ActivityIndicator size="large" color="#6366f1" />
+        <ActivityIndicator size="large" color={colors.accent} />
       </SafeAreaView>
     );
   }
@@ -106,17 +107,17 @@ export default function ProfileScreen() {
             value={username}
             onChangeText={setUsername}
             placeholder="Shkruaj username"
-            placeholderTextColor="#aaa"
+            placeholderTextColor={colors.textTertiary}
             autoFocus
           />
           <TouchableOpacity onPress={handleSaveUsername} disabled={saving}>
-            <Ionicons name="checkmark-circle" size={28} color="#22c55e" />
+            <Ionicons name="checkmark-circle" size={28} color={colors.success} />
           </TouchableOpacity>
         </View>
       ) : (
         <TouchableOpacity style={styles.usernameRow} onPress={() => setEditing(true)}>
           <Text style={styles.username}>{username || 'Vendos username'}</Text>
-          <Ionicons name="pencil" size={15} color="#9ca3af" />
+          <Ionicons name="pencil" size={15} color={colors.textTertiary} />
         </TouchableOpacity>
       )}
 
@@ -147,19 +148,19 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', padding: 24, alignItems: 'center' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: { flex: 1, backgroundColor: colors.background, padding: 24, alignItems: 'center' },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
   avatarWrapper: { marginTop: 20, marginBottom: 16 },
   avatar: {
     width: 90,
     height: 90,
     borderRadius: 45,
-    backgroundColor: '#6366f1',
+    backgroundColor: colors.accent,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarImage: { width: 90, height: 90, borderRadius: 45 },
-  avatarText: { color: '#fff', fontSize: 34, fontWeight: 'bold' },
+  avatarText: { color: '#fff', fontSize: 34, fontFamily: fonts.bold },
   cameraBadge: {
     position: 'absolute',
     bottom: 0,
@@ -167,14 +168,14 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#6366f1',
+    backgroundColor: colors.accent,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: colors.background,
   },
   usernameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
-  username: { fontSize: 19, fontWeight: '700', fontFamily: 'Poppins_700Bold', color: '#111' },
+  username: { fontSize: 19, color: colors.textPrimary, fontFamily: fonts.bold },
   usernameEditRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -185,33 +186,34 @@ const styles = StyleSheet.create({
   },
   usernameInput: {
     borderBottomWidth: 1.5,
-    borderColor: '#6366f1',
+    borderColor: colors.accent,
     fontSize: 17,
     paddingVertical: 4,
     minWidth: 160,
     textAlign: 'center',
-    color: '#111',
+    color: colors.textPrimary,
+    fontFamily: fonts.medium,
   },
-  email: { fontSize: 13, color: '#9ca3af', marginBottom: 10 },
+  email: { fontSize: 13, color: colors.textTertiary, marginBottom: 10, fontFamily: fonts.medium },
   adminBadge: {
-    backgroundColor: '#fef3c7',
+    backgroundColor: '#FCEFD8',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 20,
     marginBottom: 10,
   },
-  adminBadgeText: { fontSize: 12, fontWeight: '700', fontFamily: 'Poppins_700Bold', color: '#92400e' },
-  divider: { width: '100%', height: 1, backgroundColor: '#eee', marginVertical: 12 },
+  adminBadgeText: { fontSize: 12, color: '#8A5A16', fontFamily: fonts.bold },
+  divider: { width: '100%', height: 1, backgroundColor: colors.divider, marginVertical: 12 },
   aboutBox: { width: '100%', marginBottom: 30 },
-  aboutTitle: { fontSize: 16, fontWeight: '600', fontFamily: 'Poppins_600SemiBold', marginBottom: 8 },
-  aboutText: { fontSize: 14, color: '#666', lineHeight: 20, marginBottom: 8 },
-  version: { fontSize: 12, color: '#999' },
+  aboutTitle: { fontSize: 16, color: colors.textPrimary, marginBottom: 8, fontFamily: fonts.semibold },
+  aboutText: { fontSize: 14, color: colors.textSecondary, lineHeight: 20, marginBottom: 8, fontFamily: fonts.regular },
+  version: { fontSize: 12, color: colors.textTertiary, fontFamily: fonts.mono },
   logoutButton: {
-    backgroundColor: '#ef4444',
+    backgroundColor: colors.danger,
     paddingVertical: 14,
     paddingHorizontal: 32,
-    borderRadius: 8,
+    borderRadius: 18,
     marginTop: 'auto',
   },
-  logoutText: { color: '#fff', fontSize: 16, fontWeight: '600', fontFamily: 'Poppins_600SemiBold' },
+  logoutText: { color: '#fff', fontSize: 16, fontFamily: fonts.semibold },
 });

@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { getEvents } from '../utils/eventService';
 import { getFavoriteEventIds, removeFavorite } from '../utils/favoritesService';
 import EventCard from '../components/EventCard';
+import { colors, fonts } from '../utils/theme';
 
 export default function FavoritesScreen() {
   const { user } = useAuth();
@@ -41,7 +42,7 @@ export default function FavoritesScreen() {
   if (loading) {
     return (
       <SafeAreaView style={styles.center}>
-        <ActivityIndicator size="large" color="#6366f1" />
+        <ActivityIndicator size="large" color={colors.accent} />
       </SafeAreaView>
     );
   }
@@ -74,11 +75,11 @@ export default function FavoritesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa', padding: 16 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fafafa' },
-  headerTitle: { fontSize: 24, fontWeight: '800', fontFamily: 'Poppins_800ExtraBold', color: '#111', marginBottom: 16 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
+  headerTitle: { fontSize: 26, color: colors.textPrimary, marginBottom: 16, fontFamily: fonts.extrabold, letterSpacing: -0.5 },
   list: { flexGrow: 1, paddingBottom: 20 },
   emptyBox: { alignItems: 'center', marginTop: 60 },
   emptyIcon: { fontSize: 40, marginBottom: 12 },
-  empty: { textAlign: 'center', color: '#9ca3af', fontSize: 15, lineHeight: 22 },
+  empty: { textAlign: 'center', color: colors.textTertiary, fontSize: 15, lineHeight: 22, fontFamily: fonts.medium },
 });

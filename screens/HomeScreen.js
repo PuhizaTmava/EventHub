@@ -8,6 +8,7 @@ import { getDistanceKm } from '../utils/distance';
 import { getFavoriteEventIds, addFavorite, removeFavorite } from '../utils/favoritesService';
 import useLocation from '../hooks/useLocation';
 import EventCard from '../components/EventCard';
+import { colors, fonts } from '../utils/theme';
 
 export default function HomeScreen({ navigation }) {
   const { user, isAdmin } = useAuth();
@@ -92,7 +93,7 @@ export default function HomeScreen({ navigation }) {
   if (loading) {
     return (
       <SafeAreaView style={styles.center}>
-        <ActivityIndicator size="large" color="#6366f1" />
+        <ActivityIndicator size="large" color={colors.accent} />
       </SafeAreaView>
     );
   }
@@ -105,11 +106,11 @@ export default function HomeScreen({ navigation }) {
       </View>
 
       <View style={styles.searchBox}>
-        <Ionicons name="search" size={18} color="#9ca3af" />
+        <Ionicons name="search" size={18} color={colors.textTertiary} />
         <TextInput
           style={styles.searchInput}
           placeholder="Kërko evente..."
-          placeholderTextColor="#9ca3af"
+          placeholderTextColor={colors.textTertiary}
           value={search}
           onChangeText={setSearch}
         />
@@ -137,24 +138,27 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa', padding: 16 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fafafa' },
+  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
   header: { marginBottom: 14, paddingTop: 4 },
-  greeting: { fontSize: 13, color: '#9ca3af', marginBottom: 2 },
-  headerTitle: { fontSize: 24, fontWeight: '800', fontFamily: 'Poppins_800ExtraBold', color: '#111' },
+  greeting: { fontSize: 13, color: colors.textTertiary, marginBottom: 2, fontFamily: fonts.medium },
+  headerTitle: { fontSize: 26, color: colors.textPrimary, fontFamily: fonts.extrabold, letterSpacing: -0.5 },
   searchBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    paddingHorizontal: 14,
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    paddingHorizontal: 16,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#eee',
+    shadowColor: '#785F46',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 2,
   },
-  searchInput: { flex: 1, paddingVertical: 12, marginLeft: 8, fontSize: 15, color: '#111' },
+  searchInput: { flex: 1, paddingVertical: 14, marginLeft: 10, fontSize: 15, color: colors.textPrimary, fontFamily: fonts.medium },
   list: { flexGrow: 1, paddingBottom: 20 },
   emptyBox: { alignItems: 'center', marginTop: 60 },
   emptyIcon: { fontSize: 40, marginBottom: 12 },
-  empty: { textAlign: 'center', color: '#9ca3af', fontSize: 15, lineHeight: 22 },
+  empty: { textAlign: 'center', color: colors.textTertiary, fontSize: 15, lineHeight: 22, fontFamily: fonts.medium },
 });

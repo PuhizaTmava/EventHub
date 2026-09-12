@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { addFavorite, removeFavorite, getFavoriteEventIds } from '../utils/favoritesService';
 import { purchaseTicket } from '../utils/ticketsService';
 import { formatDate } from '../utils/dateUtils';
+import { colors, fonts } from '../utils/theme';
 
 export default function EventDetailScreen({ route, navigation }) {
   const { event } = route.params;
@@ -67,14 +68,14 @@ export default function EventDetailScreen({ route, navigation }) {
 
           {event.eventDate ? (
             <View style={styles.row}>
-              <Ionicons name="calendar" size={16} color="#6366f1" />
+              <Ionicons name="calendar" size={16} color={colors.accent} />
               <Text style={styles.rowText}>{formatDate(event.eventDate)}</Text>
             </View>
           ) : null}
 
           {event.address || typeof event.distanceKm === 'number' ? (
             <View style={styles.row}>
-              <Ionicons name="location-sharp" size={16} color="#6366f1" />
+              <Ionicons name="location-sharp" size={16} color={colors.accent} />
               <Text style={styles.rowText}>
                 {event.address || `${event.distanceKm.toFixed(1)} km larg`}
               </Text>
@@ -94,11 +95,8 @@ export default function EventDetailScreen({ route, navigation }) {
           </TouchableOpacity>
 
           {isAdmin && (
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={() => navigation.navigate('AddEditEvent', { event })}
-            >
-              <Ionicons name="create-outline" size={18} color="#6366f1" />
+            <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('AddEditEvent', { event })}>
+              <Ionicons name="create-outline" size={18} color={colors.accent} />
               <Text style={styles.editButtonText}>Edito Eventin</Text>
             </TouchableOpacity>
           )}
@@ -109,8 +107,8 @@ export default function EventDetailScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
-  imageWrapper: { width: '100%', height: 240, backgroundColor: '#eef0ff' },
+  safeArea: { flex: 1, backgroundColor: colors.background },
+  imageWrapper: { width: '100%', height: 240, backgroundColor: colors.placeholderBg },
   image: { width: '100%', height: '100%' },
   imagePlaceholder: { justifyContent: 'center', alignItems: 'center' },
   favButton: {
@@ -120,42 +118,36 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 19,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(34,28,21,0.4)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   content: { padding: 20 },
-  title: { fontSize: 24, fontWeight: '800', fontFamily: 'Poppins_800ExtraBold', color: '#111', marginBottom: 12 },
+  title: { fontSize: 24, color: colors.textPrimary, marginBottom: 12, fontFamily: fonts.extrabold, letterSpacing: -0.5 },
   row: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
-  rowText: { fontSize: 14, color: '#4b5563', marginLeft: 8, fontWeight: '500', fontFamily: 'Poppins_500Medium' },
-  sectionTitle: { fontSize: 14, fontWeight: '700', fontFamily: 'Poppins_700Bold', color: '#374151', marginTop: 16, marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 },
-  description: { fontSize: 15, color: '#6b7280', lineHeight: 22 },
+  rowText: { fontSize: 14, color: colors.textSecondary, marginLeft: 8, fontFamily: fonts.medium },
+  sectionTitle: { fontSize: 12, color: colors.textTertiary, marginTop: 16, marginBottom: 6, fontFamily: fonts.mono, textTransform: 'uppercase', letterSpacing: 1 },
+  description: { fontSize: 15, color: colors.textSecondary, lineHeight: 22, fontFamily: fonts.regular },
   buyButton: {
     flexDirection: 'row',
-    backgroundColor: '#6366f1',
+    backgroundColor: colors.accent,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 26,
     gap: 8,
-    shadowColor: '#6366f1',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
   },
-  buyButtonText: { color: '#fff', fontSize: 16, fontWeight: '700', fontFamily: 'Poppins_700Bold' },
+  buyButtonText: { color: '#fff', fontSize: 16, fontFamily: fonts.bold },
   editButton: {
     flexDirection: 'row',
-    borderWidth: 1.5,
-    borderColor: '#6366f1',
+    backgroundColor: colors.card,
     padding: 14,
-    borderRadius: 12,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 12,
     gap: 8,
   },
-  editButtonText: { color: '#6366f1', fontSize: 15, fontWeight: '700', fontFamily: 'Poppins_700Bold' },
+  editButtonText: { color: colors.accent, fontSize: 15, fontFamily: fonts.bold },
 });

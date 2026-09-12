@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { getEvents } from '../utils/eventService';
 import { getFavoriteEventIds, addFavorite, removeFavorite } from '../utils/favoritesService';
 import EventCard from '../components/EventCard';
+import { colors, fonts } from '../utils/theme';
 
 export default function CalendarScreen() {
   const navigation = useNavigation();
@@ -39,11 +40,11 @@ export default function CalendarScreen() {
     const marks = {};
     events.forEach((e) => {
       if (e.eventDate) {
-        marks[e.eventDate] = { marked: true, dotColor: '#6366f1' };
+        marks[e.eventDate] = { marked: true, dotColor: colors.accent };
       }
     });
     if (selectedDate) {
-      marks[selectedDate] = { ...(marks[selectedDate] || {}), selected: true, selectedColor: '#6366f1' };
+      marks[selectedDate] = { ...(marks[selectedDate] || {}), selected: true, selectedColor: colors.accent };
     }
     return marks;
   }, [events, selectedDate]);
@@ -71,7 +72,7 @@ export default function CalendarScreen() {
   if (loading) {
     return (
       <SafeAreaView style={styles.center}>
-        <ActivityIndicator size="large" color="#6366f1" />
+        <ActivityIndicator size="large" color={colors.accent} />
       </SafeAreaView>
     );
   }
@@ -84,11 +85,13 @@ export default function CalendarScreen() {
         markedDates={markedDates}
         onDayPress={(day) => setSelectedDate(day.dateString)}
         theme={{
-          selectedDayBackgroundColor: '#6366f1',
-          todayTextColor: '#6366f1',
-          dotColor: '#6366f1',
-          arrowColor: '#6366f1',
-          textDayFontWeight: '500',
+          selectedDayBackgroundColor: colors.accent,
+          todayTextColor: colors.accent,
+          dotColor: colors.accent,
+          arrowColor: colors.accent,
+          textDayFontFamily: fonts.medium,
+          textMonthFontFamily: fonts.bold,
+          textDayHeaderFontFamily: fonts.semibold,
         }}
         style={styles.calendar}
       />
@@ -119,10 +122,10 @@ export default function CalendarScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa', padding: 16 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fafafa' },
-  headerTitle: { fontSize: 24, fontWeight: '800', fontFamily: 'Poppins_800ExtraBold', color: '#111', marginBottom: 14 },
-  calendar: { borderRadius: 16, marginBottom: 16, elevation: 1 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
+  headerTitle: { fontSize: 26, color: colors.textPrimary, marginBottom: 14, fontFamily: fonts.extrabold, letterSpacing: -0.5 },
+  calendar: { borderRadius: 20, marginBottom: 16, elevation: 1 },
   listSection: { flex: 1 },
-  hint: { textAlign: 'center', color: '#9ca3af', marginTop: 30, fontSize: 14 },
+  hint: { textAlign: 'center', color: colors.textTertiary, marginTop: 30, fontSize: 14, fontFamily: fonts.medium },
 });

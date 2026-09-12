@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import { colors, fonts } from '../utils/theme';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -20,7 +21,6 @@ export default function RegisterScreen({ navigation }) {
     setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      // AuthContext e ndryshon vetë ekranin pas regjistrimit
     } catch (error) {
       Alert.alert('Gabim gjatë regjistrimit', error.message);
     } finally {
@@ -35,6 +35,7 @@ export default function RegisterScreen({ navigation }) {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={colors.textTertiary}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -43,6 +44,7 @@ export default function RegisterScreen({ navigation }) {
       <TextInput
         style={styles.input}
         placeholder="Password (min. 6 karaktere)"
+        placeholderTextColor={colors.textTertiary}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -60,23 +62,23 @@ export default function RegisterScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: '#fff' },
-  title: { fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 32, color: '#2563eb' },
+  container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: colors.background },
+  title: { fontSize: 28, textAlign: 'center', marginBottom: 32, color: colors.accent, fontFamily: fonts.extrabold, letterSpacing: -0.5 },
   input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 14,
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    padding: 16,
     marginBottom: 16,
     fontSize: 16,
+    color: colors.textPrimary,
+    fontFamily: fonts.medium,
+    shadowColor: '#785F46',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
   },
-  button: {
-    backgroundColor: '#2563eb',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600', fontFamily: 'Poppins_600SemiBold' },
-  link: { textAlign: 'center', marginTop: 20, color: '#2563eb' },
+  button: { backgroundColor: colors.accent, padding: 17, borderRadius: 18, alignItems: 'center', marginTop: 8 },
+  buttonText: { color: '#fff', fontSize: 16, fontFamily: fonts.bold },
+  link: { textAlign: 'center', marginTop: 20, color: colors.accent, fontFamily: fonts.semibold },
 });

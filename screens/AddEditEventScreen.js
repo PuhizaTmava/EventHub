@@ -19,6 +19,7 @@ import useImagePicker from '../hooks/useImagePicker';
 import { addEvent, updateEvent, deleteEvent } from '../utils/eventService';
 import { useAuth } from '../context/AuthContext';
 import { formatDate, toISODate } from '../utils/dateUtils';
+import { colors, fonts } from '../utils/theme';
 
 export default function AddEditEventScreen({ navigation, route }) {
   const existingEvent = route.params?.event;
@@ -89,10 +90,7 @@ export default function AddEditEventScreen({ navigation, route }) {
           address: address.trim(),
           eventDate: toISODate(eventDate),
           imageBase64: imageBase64 || null,
-          location: {
-            latitude: location.latitude,
-            longitude: location.longitude,
-          },
+          location: { latitude: location.latitude, longitude: location.longitude },
           createdBy: user.uid,
           createdByEmail: user.email,
         });
@@ -141,7 +139,7 @@ export default function AddEditEventScreen({ navigation, route }) {
         <TextInput
           style={styles.input}
           placeholder="p.sh. Koncert Jazz"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={colors.textTertiary}
           value={title}
           onChangeText={setTitle}
         />
@@ -149,7 +147,7 @@ export default function AddEditEventScreen({ navigation, route }) {
         <Text style={styles.label}>Data</Text>
         <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(true)}>
           <View style={styles.dateRow}>
-            <Ionicons name="calendar-outline" size={18} color="#6366f1" />
+            <Ionicons name="calendar-outline" size={18} color={colors.accent} />
             <Text style={styles.dateText}>{formatDate(toISODate(eventDate))}</Text>
           </View>
         </TouchableOpacity>
@@ -177,7 +175,7 @@ export default function AddEditEventScreen({ navigation, route }) {
         <TextInput
           style={[styles.input, styles.textArea]}
           placeholder="Detaje rreth eventit..."
-          placeholderTextColor="#aaa"
+          placeholderTextColor={colors.textTertiary}
           value={description}
           onChangeText={setDescription}
           multiline
@@ -188,7 +186,7 @@ export default function AddEditEventScreen({ navigation, route }) {
         <TextInput
           style={styles.input}
           placeholder="p.sh. Sheshi Nëna Terezë, Prishtinë"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={colors.textTertiary}
           value={address}
           onChangeText={setAddress}
         />
@@ -198,7 +196,7 @@ export default function AddEditEventScreen({ navigation, route }) {
             <Text style={styles.label}>Koordinatat GPS (automatike)</Text>
             {locationLoading ? (
               <View style={styles.locationRow}>
-                <ActivityIndicator size="small" color="#6366f1" />
+                <ActivityIndicator size="small" color={colors.accent} />
                 <Text style={styles.locationText}> Duke marrë lokacionin...</Text>
               </View>
             ) : errorMsg ? (
@@ -211,11 +209,7 @@ export default function AddEditEventScreen({ navigation, route }) {
           </View>
         )}
 
-        <TouchableOpacity
-          style={[styles.button, saving && styles.buttonDisabled]}
-          onPress={handleSave}
-          disabled={saving}
-        >
+        <TouchableOpacity style={[styles.button, saving && styles.buttonDisabled]} onPress={handleSave} disabled={saving}>
           <Text style={styles.buttonText}>
             {saving ? 'Duke ruajtur...' : isEditing ? 'Përditëso Event' : 'Ruaj Event'}
           </Text>
@@ -223,7 +217,7 @@ export default function AddEditEventScreen({ navigation, route }) {
 
         {isEditing && (
           <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteEvent}>
-            <Ionicons name="trash-outline" size={18} color="#ef4444" />
+            <Ionicons name="trash-outline" size={18} color={colors.danger} />
             <Text style={styles.deleteButtonText}>Fshij Eventin</Text>
           </TouchableOpacity>
         )}
@@ -233,15 +227,15 @@ export default function AddEditEventScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fafafa' },
+  safeArea: { flex: 1, backgroundColor: colors.background },
   container: { padding: 20 },
   imagePicker: {
     width: '100%',
     height: 180,
-    borderRadius: 16,
+    borderRadius: 22,
     overflow: 'hidden',
     marginBottom: 24,
-    backgroundColor: '#eef0ff',
+    backgroundColor: colors.placeholderBg,
   },
   previewImage: { width: '100%', height: '100%' },
   imagePlaceholder: {
@@ -249,58 +243,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#c7d2fe',
+    borderColor: '#DCCFBD',
     borderStyle: 'dashed',
-    borderRadius: 16,
+    borderRadius: 22,
   },
   imagePlaceholderIcon: { fontSize: 32, marginBottom: 6 },
-  imagePlaceholderText: { color: '#6366f1', fontWeight: '600', fontFamily: 'Poppins_600SemiBold' },
-  label: { fontSize: 13, fontWeight: '700', fontFamily: 'Poppins_700Bold', marginBottom: 8, color: '#374151', textTransform: 'uppercase', letterSpacing: 0.5 },
+  imagePlaceholderText: { color: colors.accent, fontFamily: fonts.semibold },
+  label: { fontSize: 13, color: colors.textSecondary, marginBottom: 8, fontFamily: fonts.bold, textTransform: 'uppercase', letterSpacing: 0.5 },
   input: {
-    borderWidth: 1.5,
-    borderColor: '#e5e7eb',
-    borderRadius: 12,
-    padding: 14,
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    padding: 16,
     marginBottom: 20,
     fontSize: 16,
-    backgroundColor: '#fff',
-    color: '#111',
+    color: colors.textPrimary,
+    fontFamily: fonts.medium,
+    shadowColor: '#785F46',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
   },
   dateRow: { flexDirection: 'row', alignItems: 'center' },
-  dateText: { fontSize: 16, color: '#111', marginLeft: 8 },
+  dateText: { fontSize: 16, color: colors.textPrimary, marginLeft: 8, fontFamily: fonts.medium },
   doneButton: { alignSelf: 'flex-end', marginTop: -10, marginBottom: 16 },
-  doneButtonText: { color: '#6366f1', fontWeight: '700', fontFamily: 'Poppins_700Bold', fontSize: 15 },
+  doneButtonText: { color: colors.accent, fontFamily: fonts.bold, fontSize: 15 },
   textArea: { height: 100, textAlignVertical: 'top' },
   locationBox: { marginBottom: 24 },
   locationRow: { flexDirection: 'row', alignItems: 'center' },
-  locationText: { fontSize: 15, color: '#6366f1', fontWeight: '500', fontFamily: 'Poppins_500Medium' },
-  errorText: { fontSize: 14, color: '#ef4444' },
-  button: {
-    backgroundColor: '#6366f1',
-    padding: 17,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 8,
-    shadowColor: '#6366f1',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
-  },
+  locationText: { fontSize: 15, color: colors.accent, fontFamily: fonts.medium },
+  errorText: { fontSize: 14, color: colors.danger, fontFamily: fonts.medium },
+  button: { backgroundColor: colors.accent, padding: 17, borderRadius: 18, alignItems: 'center', marginTop: 8 },
   buttonDisabled: { opacity: 0.6 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '700', fontFamily: 'Poppins_700Bold' },
-  deleteButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 14,
-    padding: 14,
-    gap: 6,
-  },
-  deleteButtonText: { color: '#ef4444', fontWeight: '700', fontFamily: 'Poppins_700Bold', fontSize: 15 },
-  blockedContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 30, backgroundColor: '#fafafa' },
+  buttonText: { color: '#fff', fontSize: 16, fontFamily: fonts.bold },
+  deleteButton: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 14, padding: 14, gap: 6 },
+  deleteButtonText: { color: colors.danger, fontFamily: fonts.bold, fontSize: 15 },
+  blockedContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 30, backgroundColor: colors.background },
   blockedIcon: { fontSize: 40, marginBottom: 16 },
-  blockedText: { fontSize: 16, textAlign: 'center', color: '#6b7280', marginBottom: 24 },
-  backButton: { backgroundColor: '#6366f1', paddingVertical: 12, paddingHorizontal: 28, borderRadius: 10 },
-  backButtonText: { color: '#fff', fontWeight: '700', fontFamily: 'Poppins_700Bold' },
+  blockedText: { fontSize: 16, textAlign: 'center', color: colors.textSecondary, marginBottom: 24, fontFamily: fonts.medium },
+  backButton: { backgroundColor: colors.accent, paddingVertical: 12, paddingHorizontal: 28, borderRadius: 14 },
+  backButtonText: { color: '#fff', fontFamily: fonts.bold },
 });
