@@ -6,12 +6,15 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '../context/AuthContext';
 import { getEvents } from '../utils/eventService';
 import { getFavoriteEventIds, addFavorite, removeFavorite } from '../utils/favoritesService';
+import { getDistanceKm } from '../utils/distance';
+import useLocation from '../hooks/useLocation';
 import EventCard from '../components/EventCard';
 import { colors, fonts } from '../utils/theme';
 
 export default function CalendarScreen() {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { location: myLocation } = useLocation();
   const [events, setEvents] = useState([]);
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +39,14 @@ export default function CalendarScreen() {
     }, [user.uid])
   );
 
+  const eventsWithDistance = useMemo(() => {
+    if (!myLocation) return events;
+    return events.map((event) => ({
+      ...event,
+      distanceKm: event.location ? getDistanceKm(myLocation, event.location) : null,
+    }));
+  }, [events, myLocation]);
+
   const markedDates = useMemo(() => {
     const marks = {};
     events.forEach((e) => {
@@ -51,8 +62,8 @@ export default function CalendarScreen() {
 
   const eventsOnDate = useMemo(() => {
     if (!selectedDate) return [];
-    return events.filter((e) => e.eventDate === selectedDate);
-  }, [events, selectedDate]);
+    return eventsWithDistance.filter((e) => e.eventDate === selectedDate);
+  }, [eventsWithDistance, selectedDate]);
 
   const handleToggleFavorite = async (eventId) => {
     const isFav = favoriteIds.includes(eventId);

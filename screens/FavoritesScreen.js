@@ -1,16 +1,19 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '../context/AuthContext';
 import { getEvents } from '../utils/eventService';
 import { getFavoriteEventIds, removeFavorite } from '../utils/favoritesService';
+import { getDistanceKm } from '../utils/distance';
+import useLocation from '../hooks/useLocation';
 import EventCard from '../components/EventCard';
 import { colors, fonts } from '../utils/theme';
 
 export default function FavoritesScreen() {
   const { user } = useAuth();
   const navigation = useNavigation();
+  const { location: myLocation } = useLocation();
   const [favEvents, setFavEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +32,14 @@ export default function FavoritesScreen() {
       return () => { active = false; };
     }, [user.uid])
   );
+
+  const eventsWithDistance = useMemo(() => {
+    if (!myLocation) return favEvents;
+    return favEvents.map((event) => ({
+      ...event,
+      distanceKm: event.location ? getDistanceKm(myLocation, event.location) : null,
+    }));
+  }, [favEvents, myLocation]);
 
   const handleToggleFavorite = async (eventId) => {
     try {
@@ -51,7 +62,7 @@ export default function FavoritesScreen() {
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <Text style={styles.headerTitle}>Favorites</Text>
       <FlatList
-        data={favEvents}
+        data={eventsWithDistance}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <EventCard
